@@ -1,0 +1,9 @@
+<p>AccName:  <input [(ngModel)]="TEXTBOX_U" placeholder="username"/></p>
+<br>
+<p>Password: <input  [(ngModel)]="TEXTBOX_P" type="password" placeholder="password"/></p>
+<button (click)="login()">Login</button>
+<div>
+    <li *ngFor="let item of userNameList; let i = index" (click)="onUserNameClick(i)">
+      {{ item.userName }}
+    </li>
+</div>
