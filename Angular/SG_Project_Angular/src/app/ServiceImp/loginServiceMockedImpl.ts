@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { LoginService } from "../Service/loginService";
-import { User } from "../home/Model/user";
+import { User } from "../Model/user";
 import { Observable, delay, of } from "rxjs";
 
 

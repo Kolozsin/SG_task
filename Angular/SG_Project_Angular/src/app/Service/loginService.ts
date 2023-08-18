@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { User } from "../home/Model/user";
+import { User } from "../Model/user";
 
 /**
  * This is used for the account related functions.
