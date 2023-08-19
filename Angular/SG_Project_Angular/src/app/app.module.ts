@@ -7,6 +7,8 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { LoginServiceMockedImpl } from './ServiceImp/loginServiceMockedImpl';
 import { GameComponent } from './game/game.component';
+import { StoreModule } from '@ngrx/store';
+import { loggedInReducer } from './store/login.reducer';
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { GameComponent } from './game/game.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot(({ loggedInState: loggedInReducer }))
   ],
   providers: [{provide: 'LoginService', useClass:LoginServiceMockedImpl}],
   bootstrap: [AppComponent]

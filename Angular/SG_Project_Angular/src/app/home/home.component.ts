@@ -1,6 +1,9 @@
 import { Component, Inject, inject } from '@angular/core';
 import { LoginService } from '../Service/loginService';
 import { User } from '../Model/user';
+import { Store } from '@ngrx/store';
+import { login,logout } from '../store/login.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +17,9 @@ export class HomeComponent {
 
 
   constructor(
-    @Inject('LoginService') private loginService: LoginService) {
+    @Inject('LoginService') private loginService: LoginService,
+    private router : Router,
+    private store : Store<{loggedInState : boolean}>) {
     this.loginService.loadAllAccountNames().subscribe(users => {
       this.userNameList = users;
       console.log(this.userNameList); 
@@ -34,6 +39,9 @@ export class HomeComponent {
       }
       else {
         console.log("Successfully logged in.")
+        this.store.dispatch(login());
+        this.store.select('loggedInState').subscribe(s =>{console.log(s)});
+        this.router.navigate(['/game']);
       }
     });
   }
