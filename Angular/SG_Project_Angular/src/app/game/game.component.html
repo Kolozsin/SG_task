@@ -1,6 +1,12 @@
-<div *ngFor="let ticketIndex of tickets" >
-    <app-ticket [ticketIndex] = "ticketIndex" (onChangedSelectedNumbers) = handleOnChangedSelectedNumbers($event) ></app-ticket>
+<div class="tickets-container">
+    <div *ngFor="let ticketIndex of tickets" class="ticket-item">
+        <app-ticket [ticketIndex]="ticketIndex" (onChangedSelectedNumbers)="handleOnChangedSelectedNumbers($event)"></app-ticket>
+    </div>
 </div>
 
-<button (click)="playGame()">Play</button>
-<p *ngFor="let result of results">{{result}}</p>
+<div class= "game-play-div">
+    <button class= "game-play-button" (click)="playGame()">Play</button>   
+</div>
+<div>
+    <p *ngFor="let result of results">{{result}}</p>
+</div>
