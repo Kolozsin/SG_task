@@ -1,1 +1,6 @@
-<p>game works!</p>
+<div *ngFor="let ticketIndex of tickets" >
+    <app-ticket [ticketIndex] = "ticketIndex" (onChangedSelectedNumbers) = handleOnChangedSelectedNumbers($event) ></app-ticket>
+</div>
+
+<button (click)="playGame()">Play</button>
+<p *ngFor="let result of results">{{result}}</p>

@@ -5,25 +5,30 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
-import { LoginServiceMockedImpl } from './ServiceImp/loginServiceMockedImpl';
+import { LoginServiceMockedImpl } from './ServiceImp/loginServiceImpl/loginServiceMockedImpl';
 import { GameComponent } from './game/game.component';
 import { StoreModule } from '@ngrx/store';
 import { loggedInReducer } from './store/login.reducer';
+import { TicketComponent } from './ticket/ticket.component';
+import { RandomNumberGeneratorServiceImpl } from './ServiceImp/rngServiceImpl/random-number-generator.service.IMPL';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    GameComponent
+    GameComponent,
+    TicketComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot(({ loggedInState: loggedInReducer }))
+    StoreModule.forRoot(({ appState: loggedInReducer }))
   ],
-  providers: [{provide: 'LoginService', useClass:LoginServiceMockedImpl}],
+  providers: [
+    {provide: 'LoginService', useClass:LoginServiceMockedImpl},
+    {provide: 'RandomGeneratorService', useClass:RandomNumberGeneratorServiceImpl}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

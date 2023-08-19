@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
+import { AppState } from '../store/login.reducer';
 
 
 /**
@@ -14,9 +15,9 @@ import { Observable, map } from 'rxjs';
  * @returns 
  */
 export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
-  const store: Store<{ loggedInState: boolean }> = inject(Store);
-  return store.select('loggedInState').pipe(map(s => {
-    console.log("Within the auth Guard it is: " + s);
-    return s;
+  const store: Store<{ appState: AppState }> = inject(Store);
+  return store.select('appState').pipe(map(appstate => {
+    console.log("Within the auth Guard it is: " + appstate.loggedInState);
+    return appstate.loggedInState;
   }));
 };

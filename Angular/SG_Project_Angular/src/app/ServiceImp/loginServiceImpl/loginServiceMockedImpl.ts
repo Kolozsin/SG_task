@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { LoginService } from "../Service/loginService";
-import { User } from "../Model/user";
+import { LoginService } from "../../Service/loginService/loginService";
+import { User } from "../../Model/user";
 import { Observable, delay, of } from "rxjs";
 
 
@@ -14,7 +14,7 @@ import { Observable, delay, of } from "rxjs";
 })
 export class LoginServiceMockedImpl implements LoginService{
 
-
+    
     
     private userList: User[] = [
         { id: 0, userName: 'User1' },
@@ -40,9 +40,9 @@ export class LoginServiceMockedImpl implements LoginService{
         return of(this.userList).pipe(delay(1000));
     }
 
-    loginAuth(userName: string, password: string): Observable<boolean> {
+    loginAuth(userName: string, password: string, userListParam: User[]): Observable<boolean> {
         let isValid : boolean = false;
-        let user=  this.userList.find( u => u.userName === userName);
+        let user=  userListParam.find( u => u.userName === userName);
         let userId = user ? user.id : null;
         if(userId != null){
             let pw = this.passwordList.find(p => p.password === password);

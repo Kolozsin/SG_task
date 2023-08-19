@@ -1,0 +1,21 @@
+<div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary" (click)="randomGenerate()">RND</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-danger" (click)="resetTicket()">DEL</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row col-md4" *ngFor="let row of selectableNumbers; let rowIndex = index">
+            <div class="col-sm" *ngFor="let col of row; let colIndex = index">
+                <div class="cell">
+                    <p [ngClass]="selectableNumbers[rowIndex][colIndex] ? 'active-element' : 'inactive-element'" (click)="selected(rowIndex, colIndex)">
+                        {{ (rowIndex * 7) + colIndex + 1 }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
