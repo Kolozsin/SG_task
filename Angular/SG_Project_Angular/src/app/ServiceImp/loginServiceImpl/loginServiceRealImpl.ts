@@ -9,34 +9,26 @@ import { Inject, Injectable } from "@angular/core";
 
 @Injectable({
     providedIn: 'root',
-   })
+})
 export class LoginServiceRealImpl implements LoginService {
 
-
-    users: User[] = [];
 
 
     constructor(private store: Store<{ appState: AppState }>,
         @Inject('BackendService') private userBackendService: UserBackendService) { }
 
 
-    loadAllAccountNames(): Observable<User[]> {
-        this.userBackendService.getAllUsers().subscribe(
-            response => {
-                this.users = response;
-                this.store.dispatch(loadUsers({ users: response }))
-            },
-            error => {
-                console.log('Error loading users:', error);
-            }
-        );
-        return of(this.users);
+    loadAllAccountNames() {
+        this.userBackendService.getRequest("users").subscribe({
+            next: (response) => this.store.dispatch(loadUsers({ users: response })),
+            error: (e) => console.log(e)
+        });
+
     }
 
 
-    loginAuth(userName: string, password: string): Observable<Boolean> {
-        return this.userBackendService.loginCheck(userName, password).pipe(
-            map(response => response), 
+    loginAuth(userName: string, password: string): Observable<boolean> {
+        return this.userBackendService.postRequest("login", { userName: userName, password: password }).pipe(
             catchError(error => {
                 console.log('Error logging in:', error);
                 return of(false);

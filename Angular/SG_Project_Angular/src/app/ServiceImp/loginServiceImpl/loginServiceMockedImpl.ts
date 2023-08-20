@@ -41,9 +41,8 @@ export class LoginServiceMockedImpl implements LoginService{
     ];
 
 
-    loadAllAccountNames(): Observable<User[]> {
+    loadAllAccountNames() : void{
         this.store.dispatch(loadUsers({ users: this.userList }))
-        return of(this.userList).pipe(delay(1000));
     }
 
     loginAuth(userName: string, password: string): Observable<Boolean> {

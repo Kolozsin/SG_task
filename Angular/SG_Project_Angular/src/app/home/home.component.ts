@@ -24,9 +24,8 @@ export class HomeComponent {
     private router: Router,
     private store: Store<{ appState: AppState }>,
     private ngZone: NgZone) {
-    this.loginService.loadAllAccountNames().subscribe(users => {
-      this.store.select('appState').subscribe(appState => { this.userNameList = appState.users });
-    })
+    this.loginService.loadAllAccountNames();
+    this.store.select('appState').subscribe(appState => { this.userNameList = appState.users });
   }
 
   login = () => {

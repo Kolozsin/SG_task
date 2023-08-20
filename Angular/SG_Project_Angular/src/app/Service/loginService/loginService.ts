@@ -9,7 +9,7 @@ export interface LoginService {
     /**
      * Loads in all the currently stored users.
      */
-    loadAllAccountNames() : Observable<User[]>;
+    loadAllAccountNames() :void;
     
 
     /**

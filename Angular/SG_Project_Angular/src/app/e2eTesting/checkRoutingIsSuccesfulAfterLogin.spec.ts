@@ -15,6 +15,14 @@ describe('HomeComponent', () => {
   let loginService: LoginServiceMockedImpl;
   let router : Router;
 
+  let userListMimicked: User[] = [
+    { id: 0, userName: 'User1' },
+    { id: 1, userName: 'User2' },
+    { id: 2, userName: 'User3' },
+    { id: 3, userName: 'User4' },
+    { id: 4, userName: 'User5' },
+    { id: 5, userName: 'User6' }
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,11 +45,8 @@ describe('HomeComponent', () => {
   });
 
   it("should be the same length for the loaded list", () => {
-    let userList : User[] = [];
-    loginService.loadAllAccountNames().subscribe(list => {
-      userList = list;
-    })
-    expect(component.userNameList.length).toEqual(userList.length);
+    loginService.loadAllAccountNames();
+    expect(component.userNameList.length).toEqual(userListMimicked.length);
   });
 
 
