@@ -1,10 +1,20 @@
-<p>AccName:  <input [(ngModel)]="TEXTBOX_U" placeholder="username"/></p>
-<br>
-<p>Password: <input  [(ngModel)]="TEXTBOX_P" type="password" placeholder="password"/></p>
-<button (click)="login()">Login</button>
-<p *ngIf="showMessage">{{message}}</p>
-<div>
-    <li *ngFor="let item of userNameList; let i = index" (click)="onUserNameClick(i)">
-      {{ item.userName }}
-    </li>
+<div class="login-container">
+  <p class="input-label">AccName:</p>
+  <input class="input-field" [(ngModel)]="TEXTBOX_U" placeholder="Username"/>
+
+  <p class="input-label">Password:</p>
+  <input class="input-field" [(ngModel)]="TEXTBOX_P" type="password" placeholder="Password"/>
+
+  <button class="login-button" (click)="login()">Login</button>
+
+  <p class="error-message" *ngIf="showMessage">{{message}}</p>
+  <p>
+    <span>Select a user from the quickmenu:</span>
+  <p>
+  <ul class="user-list">
+      
+      <li *ngFor="let item of userNameList; let i = index" (click)="onUserNameClick(i)">
+          {{ item.userName }}
+      </li>
+  </ul>
 </div>

@@ -2,13 +2,12 @@ import { Observable } from "rxjs";
 import { User } from "../../Model/user";
 
 /**
- * This is used for the account related functions.
+ * This is used for the account related functions going to backend.
  */
 export interface LoginService {
     
     /**
-     * Loads in all the currently stored users
-     * so it can be presented on the home page.
+     * Loads in all the currently stored users.
      */
     loadAllAccountNames() : Observable<User[]>;
     
