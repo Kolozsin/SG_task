@@ -13,14 +13,14 @@ export class UserBackendServiceImpl implements UserBackendService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/users`, { withCredentials: false });
+  
 
+  getRequest(url : String): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${url}`, { withCredentials: false });
   }
 
-  loginCheck(username: string, password: string): Observable<any> {
-    const loginData = { id: 0, userName: username, password: password };
-    return this.http.post(`${this.baseUrl}/login`, loginData, { withCredentials: false });
+  postRequest(url: String, outGoingData : object): Observable<any> {
+        return this.http.post(`${this.baseUrl}/${url}`, outGoingData, { withCredentials: false });
   }
 
 }

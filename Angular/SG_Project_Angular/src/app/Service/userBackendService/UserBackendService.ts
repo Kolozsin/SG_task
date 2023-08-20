@@ -4,9 +4,8 @@ import { User } from "src/app/Model/user";
 
 export interface UserBackendService{
 
-    getAllUsers() : Observable<User[]>;
+   getRequest(url : String) : Observable<any>;
 
-    loginCheck(userName : String, password: String) : Observable<Boolean>;
-
+   postRequest(url : String, outGoingData : Object ) : Observable<any>;
 
 }

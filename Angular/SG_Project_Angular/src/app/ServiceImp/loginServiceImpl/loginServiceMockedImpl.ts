@@ -41,15 +41,14 @@ export class LoginServiceMockedImpl implements LoginService{
     ];
 
 
-    loadAllAccountNames(): Observable<User[]> {
+    loadAllAccountNames() : void{
         this.store.dispatch(loadUsers({ users: this.userList }))
-        return of(this.userList).pipe(delay(1000));
     }
 
-    loginAuth(userName: string, password: string): Observable<Boolean> {
+    loginAuth(user: User, password: string): Observable<Boolean> {
         let isValid : boolean = false;
-        let user=  this.userList.find( u => u.userName === userName);
-        let userId = user ? user.id : null;
+        let localUser =  this.userList.find( u => u.userName === user.userName);
+        let userId = localUser ? localUser.id : null;
         if(userId != null){
             let pw = this.passwordList.find(p => p.password === password);
             let passwordId = pw ? pw.id : null;

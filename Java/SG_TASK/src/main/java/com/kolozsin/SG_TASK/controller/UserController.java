@@ -1,6 +1,9 @@
 package com.kolozsin.SG_TASK.controller;
 
+import com.kolozsin.SG_TASK.DTO.LoginRequest;
+import com.kolozsin.SG_TASK.Model.Password;
 import com.kolozsin.SG_TASK.Model.User;
+import com.kolozsin.SG_TASK.repository.PasswordRepository;
 import com.kolozsin.SG_TASK.repository.UserRepository;
 import jdk.javadoc.doclet.Reporter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,17 +25,13 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordRepository passwordRepository;
+
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllTutorials() {
+    public ResponseEntity<List<User>> getAllUsers() {
         try {
-            /*
-                In reality, I would never do something like this, but this is just a demo app with no
-                usage. Passwords should never be stored like this, with the account next to it in plain
-                text. And to make things worse, it should never be read up by a controller that is only
-                interested in the username list.
-             */
             List<User> users = new ArrayList<User>(userRepository.findAll().stream()
-                    .peek(user -> user.setPassword("*"))
                     .toList());
             if (users.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -43,21 +43,31 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestBody User loginUser) {
+    public ResponseEntity<Boolean> login(@RequestBody LoginRequest loginRequest) {
         boolean response = false;
-        // In a real program this should never look like this, I would search based on the id and get that. This is here just so
-        // there is Stream API usage in JAVA.
-        System.out.println("LOGIN WITH: username: "+ loginUser.getUserName() + "  and   password:  "+loginUser.getPassword());
-        Optional<User> maybeUser = userRepository.findAll().stream().filter(user -> user.getUserName().equals(loginUser.getUserName())).findFirst();
+        try {
+            long id = loginRequest.getLoginUser().getId();
+            if (id == -1) {
+                Optional<User> currentUser = userRepository.findAll().stream().filter((user ->
+                        user.getUserName().equals(loginRequest.getLoginUser().getUserName()))).findFirst();
+                if(currentUser.isPresent()){
+                    id = currentUser.get().getId();
+                }
+                else{
+                    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+                }
+            }
 
-        if(maybeUser.isPresent()){
-            User user = maybeUser.get();
-            if(user.getUserName().equals(loginUser.getUserName()) && user.getPassword().equals(loginUser.getPassword())) {
+            User user = userRepository.getReferenceById(id);
+            Password maybePassword = passwordRepository.getReferenceById(id);
+            if (user.getUserName().equals(loginRequest.getLoginUser().getUserName())
+                    && maybePassword.getPassword().equals(loginRequest.getPassword())) {
                 response = true;
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-
-        if(response){
+        if (response) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
