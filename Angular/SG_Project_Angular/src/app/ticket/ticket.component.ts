@@ -18,9 +18,13 @@ export class TicketComponent {
   selectableNumbers: boolean[][] = [];
   selectedNumbers: number[] = [];
 
+  colSpanRandom: number = 1;
+  colSpanDelete: number = 1;
   constructor(
     @Inject('RandomGeneratorService') private randomGeneratorService: RandomNumberGeneratorService) {
     this.resetTicket();
+    this.colSpanRandom = Math.floor(COLNUMBER/2);
+    this.colSpanDelete = Math.ceil(COLNUMBER/2);
   }
 
 
@@ -37,7 +41,6 @@ export class TicketComponent {
   }
 
   selected = (rowIndex: number, colIndex: number) => {
-    console.log(rowIndex + " - " + colIndex);
     let selectedElement = ((rowIndex)*(7)+colIndex);
     if(this.selectableNumbers[rowIndex][colIndex]){
       //Deselect

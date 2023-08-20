@@ -11,6 +11,9 @@ import { StoreModule } from '@ngrx/store';
 import { loggedInReducer } from './store/login.reducer';
 import { TicketComponent } from './ticket/ticket.component';
 import { RandomNumberGeneratorServiceImpl } from './ServiceImp/rngServiceImpl/random-number-generator.service.IMPL';
+import { UserBackendServiceImpl } from './ServiceImp/userBackendServiceImpl/UserBackendServiceImpl';
+import { LoginServiceRealImpl } from './ServiceImp/loginServiceImpl/loginServiceRealImpl';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -24,10 +27,12 @@ import { RandomNumberGeneratorServiceImpl } from './ServiceImp/rngServiceImpl/ra
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     StoreModule.forRoot(({ appState: loggedInReducer }))
   ],
   providers: [
-    {provide: 'LoginService', useClass:LoginServiceMockedImpl},
+    {provide: 'BackendService', useClass:UserBackendServiceImpl},
+    {provide: 'LoginService', useClass:LoginServiceRealImpl},
     {provide: 'RandomGeneratorService', useClass:RandomNumberGeneratorServiceImpl}],
   bootstrap: [AppComponent]
 })

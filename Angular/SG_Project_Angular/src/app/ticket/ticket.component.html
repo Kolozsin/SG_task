@@ -1,14 +1,17 @@
 <div class="ticket-container">
     <div disabled class="ticket-index">{{ ticketIndex + 1}}</div>
-    <table >
-        <tr>
-            <td colspan="2" >
-                <button class = ticket-random (click) = 'randomGenerate()'>⤭ RND</button> 
-            </td>    
-            <td colspan="2" >
-                <button class = ticket-reset (click) = 'resetTicket()'>🗑️ DEL</button>
-            </td>     
-        </tr>        
+    <table>
+        <thead class="ticket-head">
+            <td [attr.colspan]="colSpanRandom">
+                <i class="fa-solid fa-shuffle" style="color: #ff0000;"></i>
+                <button class=ticket-random (click)='randomGenerate()'>RND</button>
+            </td>
+            <td [attr.colspan]="colSpanDelete" class="ticket-delete-header"> 
+                <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                <button class=ticket-reset (click)='resetTicket()'>DEL</button>
+            </td>
+        </thead>
+
         <tr *ngFor="let row of selectableNumbers; let rowIndex = index">
             <td *ngFor="let col of row; let colIndex = index">
                 <div class="cell ticket-element " (click)="selected(rowIndex, colIndex)">
@@ -17,5 +20,5 @@
                 </div>
             </td>
         </tr>
-    </table>    
+    </table>
 </div>

@@ -27,7 +27,9 @@ export class GameComponent {
   }
 
   handleOnChangedSelectedNumbers(eventData: { index: number; arrayValue: number[] }) {
-    this.selectedNumbersOnTickets[eventData.index] = eventData.arrayValue;
+    if(eventData.index != null && eventData.index < NUMBER_OF_TICKETS){
+      this.selectedNumbersOnTickets[eventData.index] = eventData.arrayValue;
+    }
   }
 
 
@@ -36,7 +38,7 @@ export class GameComponent {
       this.results[ticket] = "Panel " + (ticket + 1) + ":";
       if (this.selectedNumbersOnTickets[ticket].length === NUMBER_TO_SELECT) {
         this.selectedNumbersOnTickets[ticket].sort((a, b) => a - b).forEach((selectedNumber) => {
-          this.results[ticket] += (selectedNumber + 1) + ",";
+          this.results[ticket] += "\t" + (selectedNumber + 1) + ",";
         })
         this.results[ticket] = this.results[ticket].substring(0, this.results[ticket].length - 1);
       }

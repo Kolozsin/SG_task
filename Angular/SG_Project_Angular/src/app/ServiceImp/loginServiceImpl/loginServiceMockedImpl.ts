@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { LoginService } from "../../Service/loginService/loginService";
 import { User } from "../../Model/user";
 import { Observable, delay, of } from "rxjs";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/login.reducer";
+import { loadUsers, login } from "src/app/store/login.actions";
 
 
 /**
@@ -13,6 +16,8 @@ import { Observable, delay, of } from "rxjs";
  providedIn: 'root',
 })
 export class LoginServiceMockedImpl implements LoginService{
+
+    constructor( private store: Store<{ appState: AppState }>){}
 
     
     
@@ -37,18 +42,20 @@ export class LoginServiceMockedImpl implements LoginService{
 
 
     loadAllAccountNames(): Observable<User[]> {
+        this.store.dispatch(loadUsers({ users: this.userList }))
         return of(this.userList).pipe(delay(1000));
     }
 
-    loginAuth(userName: string, password: string, userListParam: User[]): Observable<boolean> {
+    loginAuth(userName: string, password: string): Observable<Boolean> {
         let isValid : boolean = false;
-        let user=  userListParam.find( u => u.userName === userName);
+        let user=  this.userList.find( u => u.userName === userName);
         let userId = user ? user.id : null;
         if(userId != null){
             let pw = this.passwordList.find(p => p.password === password);
             let passwordId = pw ? pw.id : null;
             if(passwordId != null && passwordId === userId){
                 isValid = true;
+                this.store.dispatch(login());
             }
         }
         return of(isValid).pipe(delay(1000));

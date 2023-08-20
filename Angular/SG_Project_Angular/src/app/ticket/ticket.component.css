@@ -1,4 +1,4 @@
-@import url('https://unpkg.com/css.gg@2.0.0/icons/css/trash.css');
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 .active-element {
     background-color: red;
@@ -66,14 +66,21 @@
     background: white;
     color: red;
     border: none;
+    font-weight: 800;
 }
 
 .ticket-random::before{
-   content: \292D;
+   content: \f074;
 }
 
 .ticket-reset{
     background: white;
     color: red;
     border: none;
+    font-weight: 700;
+}
+
+
+.ticket-delete-header{
+    text-align: right;
 }

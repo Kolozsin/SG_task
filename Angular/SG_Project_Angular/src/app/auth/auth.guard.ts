@@ -17,7 +17,6 @@ import { AppState } from '../store/login.reducer';
 export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
   const store: Store<{ appState: AppState }> = inject(Store);
   return store.select('appState').pipe(map(appstate => {
-    console.log("Within the auth Guard it is: " + appstate.loggedInState);
     return appstate.loggedInState;
   }));
 };

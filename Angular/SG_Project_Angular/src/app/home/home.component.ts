@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, NgZone, inject } from '@angular/core';
 import { LoginService } from '../Service/loginService/loginService';
 import { User } from '../Model/user';
 import { Store } from '@ngrx/store';
@@ -22,31 +22,30 @@ export class HomeComponent {
   constructor(
     @Inject('LoginService') private loginService: LoginService,
     private router: Router,
-    private store: Store<{ appState: AppState }>) {
+    private store: Store<{ appState: AppState }>,
+    private ngZone: NgZone) {
     this.loginService.loadAllAccountNames().subscribe(users => {
-      this.store.dispatch(loadUsers({ users: users }))
       this.store.select('appState').subscribe(appState => { this.userNameList = appState.users });
-      console.log(this.userNameList);
     })
   }
 
   login = () => {
     if (this.TEXTBOX_U.length == 0 || this.TEXTBOX_P.length == 0) {
-      //In production I would create a modal for this
       this.message = "Username and/or Password can not be empty!";
       this.showMessage = true;
       return;
     }
-    this.loginService.loginAuth(this.TEXTBOX_U, this.TEXTBOX_P, this.userNameList).subscribe((isValid) => {
+    this.loginService.loginAuth(this.TEXTBOX_U, this.TEXTBOX_P).subscribe((isValid) => {
       if (!isValid) {
         this.message = "Username and/or password wrong.";
         this.showMessage = true;
         return;
       }
       else {
-        console.log("Successfully logged in.")
         this.store.dispatch(login());
-        this.router.navigate(['/game']);
+        this.ngZone.run(() => {
+          this.router.navigate(['/game']);
+        });
       }
     });
   }
