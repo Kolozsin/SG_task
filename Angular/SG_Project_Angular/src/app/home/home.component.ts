@@ -17,6 +17,7 @@ export class HomeComponent {
   userNameList: User[] = [];
   showMessage: boolean = false;
   message: string = "";
+  currentUserId : number = -1;
 
 
   constructor(
@@ -34,7 +35,7 @@ export class HomeComponent {
       this.showMessage = true;
       return;
     }
-    this.loginService.loginAuth(this.TEXTBOX_U, this.TEXTBOX_P).subscribe((isValid) => {
+    this.loginService.loginAuth({userName: this.TEXTBOX_U , id : this.currentUserId}, this.TEXTBOX_P).subscribe((isValid) => {
       if (!isValid) {
         this.message = "Username and/or password wrong.";
         this.showMessage = true;
@@ -51,6 +52,8 @@ export class HomeComponent {
 
   onUserNameClick = (index: number) => {
     this.TEXTBOX_U = this.userNameList[index].userName;
+    this.currentUserId = this.userNameList[index].id;
+
   }
 
 }

@@ -27,8 +27,8 @@ export class LoginServiceRealImpl implements LoginService {
     }
 
 
-    loginAuth(userName: string, password: string): Observable<boolean> {
-        return this.userBackendService.postRequest("login", { userName: userName, password: password }).pipe(
+    loginAuth(user: User, password: string): Observable<boolean> {
+        return this.userBackendService.postRequest("login", { loginUser: user, password: password }).pipe(
             catchError(error => {
                 console.log('Error logging in:', error);
                 return of(false);

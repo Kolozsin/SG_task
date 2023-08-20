@@ -19,5 +19,5 @@ export interface LoginService {
      * @param userName Username you try to login with
      * @param password Password you try to login with
      */
-    loginAuth(userName : string, password : string) : Observable<Boolean>;
+    loginAuth(userName : User, password : string) : Observable<Boolean>;
 }
